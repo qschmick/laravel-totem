@@ -35,7 +35,15 @@ class TasksController extends Controller
     public function index()
     {
         return view('totem::tasks.index', [
-            'tasks' => $this->tasks->builder()->paginate(10),
+            'tasks' => $this->tasks
+                ->builder()
+                ->sortableBy([
+                    'description',
+                ], ['description'=>'asc'])
+                ->when(request('q'), function ($query) {
+                    $query->where('description', 'LIKE', '%'.request('q').'%');
+                })
+                ->paginate(20),
         ]);
     }
 
@@ -169,6 +177,8 @@ class TasksController extends Controller
                             'notification_email_address' => $record->notification_email_address,
                             'notification_phone_number' => $record->notification_phone_number,
                             'notification_slack_webhook' => $record->notification_slack_webhook,
+                            'auto_cleanup_num' => $record->auto_cleanup_num,
+                            'auto_cleanup_type' => $record->auto_cleanup_type,
                         ]);
 
                         if (! empty($record->frequencies)) {

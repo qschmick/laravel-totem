@@ -49,20 +49,21 @@ class TotemServiceProvider extends ServiceProvider
         $this->app->alias('totem.tasks', TaskInterface::class);
         $this->app->register(TotemRouteServiceProvider::class);
         $this->app->register(TotemEventServiceProvider::class);
+        $this->app->register(TotemFormServiceProvider::class);
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/totem.php',
+            'totem'
+        );
 
         try {
-            if (Schema::hasTable('tasks')) {
+            if (Schema::hasTable(config('totem.table_prefix').'tasks')) {
                 $this->app->register(ConsoleServiceProvider::class);
             }
         } catch (\PDOException $ex) {
             // This will trigger if DB cannot be connected to
             Log::error($ex->getMessage());
         }
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/totem.php',
-            'totem'
-        );
     }
 
     /**

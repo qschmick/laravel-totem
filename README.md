@@ -2,12 +2,14 @@
   <img src="https://github.com/codestudiohq/laravel-totem/blob/master/resources/assets/img/totem.png?raw=true" alt="Laravel Totem"/>
 </p>
 <p align="center">
-<a href="https://travis-ci.org/codestudiohq/laravel-totem"><img src="https://travis-ci.org/codestudiohq/laravel-totem.svg" alt="Build Status"></a>
-<a href="https://styleci.io/repos/99050894"><img src="https://styleci.io/repos/99050894/shield?branch=2.0" alt="StyleCI"></a>
+<a href="https://travis-ci.org/codestudiohq/laravel-totem"><img src="https://travis-ci.org/codestudiohq/laravel-totem.svg?branch=3.0" alt="Build Status"></a>
+<a href="https://styleci.io/repos/99050894"><img src="https://styleci.io/repos/99050894/shield?branch=3.0" alt="StyleCI"></a>
 <a href="https://packagist.org/packages/studio/laravel-totem"><img src="https://poser.pugx.org/studio/laravel-totem/license.svg" alt="License"></a>
 </p>
 
 # Introduction
+
+[![Join the chat at https://gitter.im/laravel-totem/Lobby](https://badges.gitter.im/laravel-totem/Lobby.svg)](https://gitter.im/laravel-totem/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Manage your `Laravel Schedule` from a pretty dashboard. Schedule your `Laravel Console Commands` to your liking. Enable/Disable scheduled tasks on the fly without going back to your code again.
 
@@ -17,18 +19,19 @@ Manage your `Laravel Schedule` from a pretty dashboard. Schedule your `Laravel C
 
 |<span align="left">Laravel</span> |<span align="left">Totem</span>| 
 |:-------|----------:|
-|5.5     |     2.0   |
-|5.4     |     1.0   |
+|5.6     |     3.x   |
+|5.5     |     2.x   |
+|5.4     |     1.x   |
 
 #### Installing
 
-`Totem` requires Laravel v5.4 and above. Use composer to install totem to your Laravel project
+`Totem` requires Laravel v5.4 and above, please refer to the above table for compatability. Use composer to install totem to your Laravel project
 
 ```
 composer require studio/laravel-totem
 ```
 
-> Laravel Totem supports auto package discovery for Laravel v5.5, therefore service provider registration is not required in Laravel v5.5
+> Laravel Totem supports auto package discovery for Laravel v5.5+, therefore service provider registration is not required in Laravel v5.5+
 
 Add `TotemServiceProvider` to the `providers` array of your Laravel v5.4 application's config/app.php
 
@@ -102,6 +105,23 @@ Example filters
 ```
 
 This feature uses [fnmatch](http://php.net/manual/en/function.fnmatch.php) syntax to filter displayed commands. `stats:*` will match all Artisan commands that start with `stats:` while `email:daily-reports` will only match the command named `email:daily-reports`.
+
+This filter can be used as either a whitelist or a blacklist. By default it acts as a whitelist but an option flag can be set to instead act as a blacklist.
+
+```php
+'artisan' => [
+    'command_filter' => [
+        'stats:*',
+        'email:daily-reports'
+    ],
+    'whitelist' => true,
+],
+
+```
+
+If the value of whitelist is `false` then the filter acts as a blacklist.
+
+`'whitelist' => false`
 
 #### Middleware
 
